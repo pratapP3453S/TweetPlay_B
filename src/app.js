@@ -32,7 +32,7 @@ import dashboardRouter from "./routes/dashboard.routes.js";
 import paymentRouter from "./routes/payment.routes.js";
 // import videoViewsRouter from "./routes/viewstats.routes.js"
 
-app.get("/", (req, res) => res.send("Backend of Streamify"));
+app.get("/", (req, res) => res.send("Backend of TweetPlay"));
 
 //routes declaration
 app.use("/api/v1/users", userRouter);

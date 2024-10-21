@@ -9,6 +9,7 @@ app.use(
         origin: [
             // "https://streamify-video-streaming.vercel.app",
             "http://localhost:5173",
+            "https://tweetplay-b.onrender.com"
         ],
         credentials: true,
     })

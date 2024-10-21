@@ -5,7 +5,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { paymentInstance } from "../utils/paymentInstance.js";
 import { User } from "../models/user.model.js";
 
-const URL = "http://localhost:5173"
+// const URL = "http://localhost:5173"
+const URL = "tweetplay.vercel.app"
 
 const changeUserPremiumValue = async (userId) => {
     try {

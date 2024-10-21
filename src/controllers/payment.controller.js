@@ -6,7 +6,7 @@ import { paymentInstance } from "../utils/paymentInstance.js";
 import { User } from "../models/user.model.js";
 
 // const URL = "http://localhost:5173"
-const URL = "tweetplay.vercel.app"
+const URL = "tweetplay.vercel.app";
 
 const changeUserPremiumValue = async (userId) => {
     try {
@@ -14,19 +14,21 @@ const changeUserPremiumValue = async (userId) => {
         user.premium = true;
         await user.save({ validateBeforeSave: false });
     } catch (error) {
-        throw new ApiError(500,"Something went wrong when updating premium value in database");
+        throw new ApiError(
+            500,
+            "Something went wrong when updating premium value in database"
+        );
     }
 };
 
-const checkout = asyncHandler( async(req, res) => {
+const checkout = asyncHandler(async (req, res) => {
     const premiumPriceDoc = await PremiumPrice.findOne();
-    if(!premiumPriceDoc){
+    if (!premiumPriceDoc) {
         throw new ApiError(404, "Premium price not found in database");
     }
     const options = {
         amount: Number(premiumPriceDoc.premiumPrice) * 100,
         currency: "INR",
-
     };
     const order = await paymentInstance.orders.create(options);
 
@@ -34,14 +36,14 @@ const checkout = asyncHandler( async(req, res) => {
     res.status(200).json({
         success: true,
         order,
-    })
+    });
 });
-
 
 const paymentVerification = asyncHandler(async (req, res) => {
     const userId = req.params.userId;
-    console.log(userId)
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    console.log(userId);
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+        req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
 
@@ -51,28 +53,23 @@ const paymentVerification = asyncHandler(async (req, res) => {
         .digest("hex");
 
     const isSignatureValid = razorpay_signature === expectedSignature;
-    if(isSignatureValid){
+    if (isSignatureValid) {
         //database here
         await changeUserPremiumValue(userId);
 
-        return res.redirect(
-            `${URL}/paymentsuccess`
-        );
+        return res.redirect(`https://tweetplay.vercel.app/paymentsuccess`);
     }
 
     // return res.status(200).json({
     //     success: true,
     //     isSignatureValid: razorpay_signature === expectedSignature,
     // });
-    return res.redirect(
-        `${URL}/paymentunsuccessful`
-    );
+    // res.writeHead(301, {
+    //     Location: "https://tweetplay.vercel.app/paymentunsuccessful",
+    // });
+    // return res.end();
 });
 
 export default paymentVerification;
 
-
-export { 
-    checkout,
-    paymentVerification,
-}
+export { checkout, paymentVerification };

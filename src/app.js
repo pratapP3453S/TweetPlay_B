@@ -8,6 +8,7 @@ app.use(
     cors({
         origin: [
             // "https://streamify-video-streaming.vercel.app",
+            "https://tweetplay.vercel.app/paymentsuccess",
             "https://tweetplay.vercel.app",
             "https://tweetplay-prataps-projects-1d26d0ab.vercel.app",
             "http://localhost:5173",

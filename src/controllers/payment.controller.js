@@ -60,14 +60,7 @@ const paymentVerification = asyncHandler(async (req, res) => {
         return res.redirect(`https://tweetplay.vercel.app/paymentsuccess`);
     }
 
-    // return res.status(200).json({
-    //     success: true,
-    //     isSignatureValid: razorpay_signature === expectedSignature,
-    // });
-    // res.writeHead(301, {
-    //     Location: "https://tweetplay.vercel.app/paymentunsuccessful",
-    // });
-    // return res.end();
+    return res.redirect(`https://tweetplay.vercel.app/paymentunsuccessful`)
 });
 
 export default paymentVerification;

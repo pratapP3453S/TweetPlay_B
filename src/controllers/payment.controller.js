@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { paymentInstance } from "../utils/paymentInstance.js";
 import { User } from "../models/user.model.js";
+import { MdVerified } from "react-icons/md";
 
 // const URL = "http://localhost:5173"
 const URL = "tweetplay.vercel.app";
@@ -12,6 +13,8 @@ const changeUserPremiumValue = async (userId) => {
     try {
         const user = await User.findById(userId);
         user.premium = true;
+        // user.fullName = user.fullName ? `${user.fullName}&nbsp;${<MdVerified />}` : `${<MdVerified />}`;
+        // user.fullName = `${user.fullName}${<MdVerified />}`
         await user.save({ validateBeforeSave: false });
     } catch (error) {
         throw new ApiError(

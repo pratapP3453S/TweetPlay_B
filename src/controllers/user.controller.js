@@ -35,8 +35,6 @@ const generateAccessandRefreshTokens = async (userId, val = 0) => {
     }
 };
 
-
-
 const registerUser = asyncHandler(async (req, res) => {
     // get user details from frontend
     // validation - not empty
@@ -91,8 +89,9 @@ const registerUser = asyncHandler(async (req, res) => {
         username: username.toLowerCase(),
     });
 
-
-    const createdUser = await User.findById(user._id).select(" -password -refreshToken");
+    const createdUser = await User.findById(user._id).select(
+        " -password -refreshToken"
+    );
 
     if (!createdUser) {
         throw new ApiError(
@@ -104,9 +103,8 @@ const registerUser = asyncHandler(async (req, res) => {
     if (createdUser) {
         const userEmail = createdUser.email;
         const userName = createdUser.username;
-        console.log(userEmail, userName)
+        console.log(userEmail, userName);
         sendRegisterSuccessEmail(userEmail, userName);
-
     }
 
     return res
@@ -441,6 +439,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
                 coverImage: 1,
                 email: 1,
                 createdAt: 1,
+                premium: 1,
             },
         },
     ]);
@@ -455,7 +454,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
             new ApiResponse(
                 200,
                 channel[0],
-                "User channel fetched successfully"
+                "User channel fetched successfully..."
             )
         );
 });
